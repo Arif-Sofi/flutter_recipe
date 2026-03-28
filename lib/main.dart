@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
     //MaterialApp sets up the "rules" and "tools" that every other widget will use.
     //MaterialApp almost always used once. defines routes, title, theme, localization(language)
     return MaterialApp( 
-      title: 'Flutter Demo',
+      title: 'Recipe Application',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -30,10 +30,24 @@ class MyApp extends StatelessWidget {
         //
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
-        colorScheme: .fromSeed(seedColor: Colors.green),
+        colorScheme: .fromSeed(seedColor: Colors.amber),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'recipe box'),
     );
+  }
+}
+
+class CounterIncrementor extends StatelessWidget {
+  const CounterIncrementor({required this.onPressed, super.key});
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context){
+    return FloatingActionButton(
+      onPressed: onPressed, 
+      tooltip: 'increment',
+      child: const Icon(Icons.add), 
+      );
   }
 }
 
@@ -57,6 +71,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  int currentPageIndex = 0;
 
   void _incrementCounter() {
     setState(() {
@@ -103,18 +118,23 @@ class _MyHomePageState extends State<MyHomePage> {
         //actions are list of widgets on the right side
         actions: [
           IconButton(onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const SettingsPage()),
-                );
-              }, icon: const Icon(Icons.settings),),
+            Navigator.of(context).push(
+              MaterialPageRoute<void>
+              (builder: (context) => const SettingsPage()),
+            );
+            // Navigator.push(
+            //   context,
+            //   MaterialPageRoute(builder: (context) => const SettingsPage()),
+            // );
+          }, icon: const Icon(Icons.settings),),
         ],
 
       ),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
-        child: Column(
+        child: Container(
+          // alignment: Alignment.center,
           // Column is also a layout widget. It takes a list of children and
           // arranges them vertically. By default, it sizes itself to fit its
           // children horizontally, and tries to be as tall as its parent.
@@ -129,9 +149,50 @@ class _MyHomePageState extends State<MyHomePage> {
           // action in the IDE, or press "p" in the console), to see the
           // wireframe for each widget.
 
-          mainAxisAlignment: .center,//centers on the MainAxis (here is the vertical line)
-          children: [
-            const Text('You have pushed the button this many times:'),
+          // mainAxisAlignment: .center,//centers on the MainAxis (here is the vertical line)
+          // children: [
+            child: Column(
+              mainAxisAlignment: .center,
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.symmetric(vertical: 5.0),
+                      child: Image(
+                        image: const NetworkImage('https://cookieandkate.com/images/2015/03/thai-green-curry-recipe-0.jpg'),
+                        height:250,
+                        width: 250,
+                      ),
+                    ),
+                    Expanded(
+                      child: const Text('Thai Green Curry'),
+                    )
+                    
+                  ]
+                ),
+
+                Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.symmetric(vertical: 5.0),
+                      child: Image(
+                        image: const NetworkImage(
+                          'http://www.bakerita.com/wp-content/uploads/2015/06/No-Bake-Raspberry-Chocolate-Truffle-Tart-Paleo-11.jpg'),
+
+                        height:250,
+                        width: 250,
+                      )
+                    ),
+                    Expanded(
+                      child: const Text('Raspberry Chocolate Tart'),
+                    )
+                    
+                  ]
+                )
+              ]
+            )
+
+            /* const Text('You have pushed the button this many times:'),
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
@@ -140,12 +201,9 @@ class _MyHomePageState extends State<MyHomePage> {
             TextButton(
               onPressed: _resetCounter,
               child: const Text('Reset Counter'),
-            ),
+            ), */
 
-            SizedBox(height: 10),
-
-            
-          ],
+          // ],
         ),
       ),
 
@@ -185,15 +243,30 @@ class _MyHomePageState extends State<MyHomePage> {
           
             // SizedBox(width: 10), easier than padding
 
-          FloatingActionButton(
-            onPressed: _incrementCounter,
-            tooltip: 'Increment',
-            child: const Icon(Icons.add),
-          ),
+          CounterIncrementor(onPressed: _incrementCounter),
         ],
       ),
 
       bottomNavigationBar: BottomNavigationBar(
+        // onDestinationSelected: (int index) {
+        //   setState(() {
+        //     currentPageIndex = index;
+        //   });
+        // },
+
+        // indicatorColor: Colors.green,
+        // selectedIndex: currentPageIndex,
+        // destinations: const<Widget>[
+        //   NavigationDestination(
+        //     selectedIcon: Icon(Icons.home),
+        //     icon: Icon(Icons.home_outlined),
+        //     label:'Home'
+        //     ),
+        //   NavigationDestination(
+        //     icon: Icon(Icons.settings),
+        //     label: 'Settings'
+        //     ),
+        // ],
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home), 
@@ -211,8 +284,15 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-class SettingsPage extends StatelessWidget {
+class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
+
+  @override
+  State<SettingsPage> createState() => _SettingsPageState();
+}
+
+class _SettingsPageState extends State<SettingsPage> {
+  int currentPageIndex = 0;
 
   @override
   Widget build(BuildContext context){
@@ -244,6 +324,21 @@ class SettingsPage extends StatelessWidget {
       ),
 
       drawer: Drawer(),
+
+      bottomNavigationBar: BottomNavigationBar(
+        
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home), 
+            label: 'Home'),
+
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings), 
+            label: 'Settings',
+          ),
+            
+        ],
+      )
 
       //FAB has
       //onPressed, tooltip, child, backgroundColor, foregroundColor, shape.
