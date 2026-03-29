@@ -1,5 +1,269 @@
 import 'package:flutter/material.dart';
+import '../views/home/home_page.dart';
 
+void main() => runApp(const MyApp());
+
+//recipe app
+// /*
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    const String appTitle = 'Recipe Box';
+
+    return MaterialApp(
+      title: 'Recipe Application',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color.fromARGB(255, 101, 150, 64),
+        ),
+      ),
+      home: const MyHomePage(title: appTitle),
+    );
+  }
+}
+
+// */
+
+//layout demo
+/*
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    const String appTitle = 'Flutter layout demo';
+    const String description = 
+      'Lake Oeschinen lies at the foot of the Blüemlisalp in the Bernese Alps. Situated 1,578 meters above sea level, it'
+      'is one of the larger Alpine Lakes. A gondola ride from '
+      'Kandersteg, followed by a half-hour walk through pastures '
+      'and pine forest, leads you to the lake, which warms to 20 '
+      'degrees Celsius in the summer. Activities enjoyed here '
+      'include rowing, and riding the summer toboggan run.';
+
+    return MaterialApp(
+      title: appTitle,
+      home: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: const Text(
+            appTitle,
+          )
+        ),
+        body: const SingleChildScrollView(
+          child: Column(
+            children: [
+              ImageSection(imageUrl: 'image/lake.jpg'),
+
+              TitleSection(
+                name: 'Oeschinen Lake Campground', 
+                location: 'Kandersteg, Switzerland',
+              ),
+
+              ButtonSection(),
+
+              TextSection(description: description),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class TitleSection extends StatelessWidget {
+  const TitleSection({super.key, required this.name, required this.location});
+
+  final String name;
+  final String location;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(32),
+      child: Row(
+        children: [
+          //Expanded to use all remaining free space in the row to stretch the Column Widget
+          Expanded(
+            child: Column(
+              //to place Column at the start of the row
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8),
+                  child: Text(
+                    name,
+                    style:
+                      const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
+                Text(
+                  location,
+                  style:
+                    TextStyle(color: Colors.grey[500]),
+                )
+              ],
+            ),
+          ),
+          FavoriteWidget(),
+          // Icon(Icons.star, color: Colors.red[500]),
+          // Container(
+          //   padding: const EdgeInsets.only(left: 16, right: 32),
+          //   child: const Text('41'),
+          // )
+        ],
+      )
+    );
+  }
+}
+
+class ButtonSection extends StatelessWidget {
+  const ButtonSection({super.key});
+
+  @override
+  Widget build(BuildContext context){
+    final Color color = Theme.of(context).primaryColor;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 32.0),
+      
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          ButtonWithText(icon: Icons.call, label: 'CALL', color: color),
+          ButtonWithText(icon: Icons.near_me, label: 'ROUTE', color: color),
+          ButtonWithText(icon: Icons.share, label: 'SHARE', color: color),
+        ],
+      )
+    );
+  }
+}
+
+class ButtonWithText extends StatelessWidget {
+  const ButtonWithText({
+    super.key, 
+    required this.icon, 
+    required this.label, 
+    required this.color});
+
+    //IconData because we will pass it in Icon widget
+    final IconData icon;
+    final String label;
+    final Color color;
+
+    @override
+    Widget build(BuildContext context){
+      return Column(
+        // mainAxisSize: MainAxisSize.min,
+        // mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(icon, color: color),
+
+          Text(label),
+        ],
+      );
+    }
+}
+
+class TextSection extends StatelessWidget {
+  const TextSection({super.key, required this.description});
+
+  final String description;
+
+  @override
+  Widget build(BuildContext context){
+    return Padding(
+      padding: const EdgeInsets.all(32.0),
+      child: Text(
+        description,
+        softWrap: true,
+        textAlign: TextAlign.justify,
+      ),
+    );
+  }
+}
+
+class ImageSection extends StatelessWidget {
+  const ImageSection({super.key, required this.imageUrl});
+
+  final String imageUrl;
+
+  @override
+  Widget build(BuildContext context){
+    return Image.asset(
+      imageUrl,
+      width: 600,
+      height: 240,
+      fit: BoxFit.cover,
+    );
+  }
+}
+
+class FavoriteWidget extends StatefulWidget {
+  const FavoriteWidget({super.key});
+
+  @override
+  State<FavoriteWidget> createState() => _FavouriteWidgetState();
+}
+
+class _FavouriteWidgetState extends State<FavoriteWidget> {
+  bool _isFavorited = true;
+  int _favoriteCount = 41;
+
+  void _toggleFavorite() {
+    setState((){
+      if (_isFavorited){
+        _favoriteCount -= 1;
+        _isFavorited = false;
+      }
+      else {
+        _favoriteCount += 1;
+        _isFavorited = true;
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context){
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+
+      children: [
+        Container(
+          padding: const EdgeInsets.all(0),
+
+          child: IconButton(
+            padding: const EdgeInsets.all(0),
+            alignment: Alignment.center,
+
+            icon: (_isFavorited 
+              ? const Icon(Icons.star)
+              : const Icon(Icons.star_border)
+            ),
+
+            color: Colors.red[500],
+
+            onPressed: _toggleFavorite,
+          ),
+        ),
+
+        SizedBox(
+          width: 18,
+          // child: Text('$_favoriteCount'),
+          child: SizedBox(
+            child: Text('$_favoriteCount'),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+*/
+
+/*
 void main() {
   runApp(const MyApp());
 }
@@ -16,21 +280,17 @@ class MyApp extends StatelessWidget {
       title: 'Recipe Application',
       theme: ThemeData(
         // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: .fromSeed(seedColor: Colors.amber),
+        //usually has colorScheme, textTheme
+        colorScheme: .fromSeed(
+          seedColor: Colors.amber,
+          brightness: Brightness.light,
+          ),
+        
+        // Define the default `TextTheme`. Use this to specify the default
+        // text styling for headlines, titles, bodies of text, and more.
+        textTheme: TextTheme(
+          
+        )
       ),
       home: const MyHomePage(title: 'recipe box'),
     );
@@ -134,7 +394,8 @@ class _MyHomePageState extends State<MyHomePage> {
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
         child: Container(
-          // alignment: Alignment.center,
+          margin: const EdgeInsets.symmetric(vertical: 10.0),
+          alignment: Alignment.center,
           // Column is also a layout widget. It takes a list of children and
           // arranges them vertically. By default, it sizes itself to fit its
           // children horizontally, and tries to be as tall as its parent.
@@ -152,26 +413,35 @@ class _MyHomePageState extends State<MyHomePage> {
           // mainAxisAlignment: .center,//centers on the MainAxis (here is the vertical line)
           // children: [
             child: Column(
-              mainAxisAlignment: .center,
+              // crossAxisAlignment: .center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              
               children: [
-                Row(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(vertical: 5.0),
-                      child: Image(
-                        image: const NetworkImage('https://cookieandkate.com/images/2015/03/thai-green-curry-recipe-0.jpg'),
-                        height:250,
-                        width: 250,
+                Container(
+                  alignment: Alignment.center,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(vertical: 5.0),
+                        child: Image(
+                          image: const NetworkImage('https://cookieandkate.com/images/2015/03/thai-green-curry-recipe-0.jpg'),
+                          height:250,
+                          width: 250,
+                        ),
                       ),
-                    ),
-                    Expanded(
-                      child: const Text('Thai Green Curry'),
-                    )
-                    
-                  ]
+                      // Flexible(
+                        // child: 
+                        const Text(
+                          'Thai Green Curry'),
+                      // )
+                    ]
+                  )
                 ),
 
-                Row(
+                Container(alignment: Alignment.center,
+                  child:Row(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     Container(
                       padding: const EdgeInsets.symmetric(vertical: 5.0),
@@ -183,12 +453,15 @@ class _MyHomePageState extends State<MyHomePage> {
                         width: 250,
                       )
                     ),
-                    Expanded(
-                      child: const Text('Raspberry Chocolate Tart'),
-                    )
+                    // Flexible(
+                    //   child: const 
+                      Text('Raspberry Chocolate Tart'),
+                    // )
                     
                   ]
                 )
+                )
+                
               ]
             )
 
@@ -284,6 +557,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
+
+
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
 
@@ -308,20 +583,29 @@ class _SettingsPageState extends State<SettingsPage> {
       ),
 
       body: Center(
-        child: Column(
-          mainAxisAlignment: .center,
+        child: Row(
           children: [
-            Text('This is the settings page'),
 
-            SizedBox(height: 10),
-
-            ElevatedButton(onPressed: () {
-              Navigator.pop(context);
-            }, 
-            child: const Text('Home'))
           ]
         )
       ),
+      // body: Center(
+      //     child: Row(
+      //       mainAxisAlignment: .center,
+      //       children: [
+      //         Column(
+      //           children: [],
+      //         ),
+  
+      //         // Image(
+      //         //   image: const NetworkImage(
+      //         //     //'http://www.bakerita.com/wp-content/uploads/2015/06/No-Bake-Raspberry-Chocolate-Truffle-Tart-Paleo-11.jpg'
+      //         //   )
+      //         // )
+      //       ]
+      //     )
+      // ),
+      
 
       drawer: Drawer(),
 
@@ -338,11 +622,17 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
             
         ],
-      )
+      ),
 
       //FAB has
       //onPressed, tooltip, child, backgroundColor, foregroundColor, shape.
-      //floatingActionButton: ,
+      floatingActionButton: FloatingActionButton(
+              onPressed: () {
+                Navigator.pop(context);
+              }, 
+              child: const Text('Home')
+            ),
     );
   }
 }
+*/
