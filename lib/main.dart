@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+
 import '../views/home/home_page.dart';
+
 import '../views/recipes/recipe1/recipe1.dart';
+import '../views/recipes/recipe2/recipe2.dart';
 
 void main() => runApp(const MyApp());
 
@@ -18,6 +21,13 @@ final GoRouter _router = GoRouter(
           path: 'recipe1',
           builder: (BuildContext context, GoRouterState state){
             return const Recipe1(title: 'Thai Green Curry');
+          },
+        ),
+
+        GoRoute(
+          path: 'recipe2',
+          builder: (BuildContext context, GoRouterState state){
+            return const Recipe2(title: 'Raspberry Chocolate Tart');
           },
         ),
       ],
@@ -39,9 +49,33 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(
           seedColor: const Color.fromARGB(255, 101, 150, 64),
         ),
+
+        textTheme: const TextTheme(
+          titleLarge: TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+          ),
+          titleMedium: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
+          titleSmall: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.bold,
+          ),
+
+          bodyLarge: TextStyle(
+            fontSize: 16,
+          ),
+          bodyMedium: TextStyle(
+            fontSize: 14,
+          ),
+          bodySmall: TextStyle(
+            fontSize: 12,
+          ),
+        ),
       ),
       routerConfig: _router,
-      // home: const MyHomePage(title: appTitle),
     );
   }
 }

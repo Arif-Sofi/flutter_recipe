@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../home/widgets/recipe_section.dart';
 
 class MyHomePage extends StatelessWidget {
@@ -13,7 +14,10 @@ class MyHomePage extends StatelessWidget {
       appBar: AppBar(
         title:  Text(
           title,
+          style: TextTheme.of(context).titleLarge?.copyWith(
+            color: Theme.of(context).colorScheme.onPrimary,
           ),
+        ),
 
         iconTheme: IconThemeData(
           color: Theme.of(context).colorScheme.onPrimary,

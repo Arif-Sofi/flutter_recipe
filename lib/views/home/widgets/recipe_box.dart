@@ -55,6 +55,7 @@ class RecipeBox extends StatelessWidget {
               child: Text(
                 recipeName,
                 textAlign: TextAlign.left,
+                style: TextTheme.of(context).titleMedium,
               ),
             )
 
