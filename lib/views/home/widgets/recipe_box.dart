@@ -14,7 +14,12 @@ class RecipeBox extends StatelessWidget {
 
       decoration: BoxDecoration(
         color: Colors.white,
-        border: Border.all(color: Colors.grey),
+        // borderRadius: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        // ).borderRadius,
+        border: Border.all(
+          color: Colors.grey,
+          ),
         boxShadow: [
           BoxShadow(
             color: const Color.fromARGB(255, 107, 33, 28),

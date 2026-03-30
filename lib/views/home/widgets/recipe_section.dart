@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../widgets/recipe_box.dart';
 
 class RecipeSection extends StatelessWidget {
@@ -11,9 +12,15 @@ class RecipeSection extends StatelessWidget {
       
       child: Column(
         children: [
-          RecipeBox(
-            imageUrl: 'image/greencurry.png',
-            recipeName: 'Thai Green Curry',
+          GestureDetector(
+            onTap: (){
+              context.push('/recipe1');
+            },
+
+            child: RecipeBox(
+              imageUrl: 'image/greencurry.png',
+              recipeName: 'Thai Green Curry',
+            ),
           ),
 
           RecipeBox(

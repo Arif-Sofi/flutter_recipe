@@ -1,7 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../views/home/home_page.dart';
+import '../views/recipes/recipe1/recipe1.dart';
 
 void main() => runApp(const MyApp());
+
+final GoRouter _router = GoRouter(
+  routes: <RouteBase> [
+    GoRoute(
+      path: '/',
+      builder: (BuildContext context, GoRouterState state) {
+        return const MyHomePage(title: 'Recipe Box');
+      },
+
+      routes: <RouteBase> [
+        GoRoute(
+          path: 'recipe1',
+          builder: (BuildContext context, GoRouterState state){
+            return const Recipe1(title: 'Thai Green Curry');
+          },
+        ),
+      ],
+    ),
+  ],
+);
 
 //recipe app
 // /*
@@ -10,16 +32,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const String appTitle = 'Recipe Box';
 
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'Recipe Application',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
           seedColor: const Color.fromARGB(255, 101, 150, 64),
         ),
       ),
-      home: const MyHomePage(title: appTitle),
+      routerConfig: _router,
+      // home: const MyHomePage(title: appTitle),
     );
   }
 }

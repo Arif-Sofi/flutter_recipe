@@ -15,6 +15,10 @@ class MyHomePage extends StatelessWidget {
           title,
           ),
 
+        iconTheme: IconThemeData(
+          color: Theme.of(context).colorScheme.onPrimary,
+        ),
+
         backgroundColor: Theme.of(context).colorScheme.primary,
 
         titleTextStyle: TextStyle(
@@ -32,16 +36,22 @@ class MyHomePage extends StatelessWidget {
         elevation: 10.0,
       ),
 
+      drawer: Drawer(
+      ),
+
       body: Center(
         child: Column(
 
           children: [
             RecipeSection(),
-
-            Text('hello'),
           ]
         )
 
+      ),
+
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {}, 
+        label: const Text('Add Recipe'),
       ),
     );
   }
