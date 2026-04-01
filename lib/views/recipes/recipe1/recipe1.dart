@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../sharedwidgets/bulletpoint.dart';
 
 class Recipe1 extends StatelessWidget {
   const Recipe1({super.key, required this.title});
@@ -75,10 +76,7 @@ class TitleSection extends StatelessWidget {
           Text(
             title,
             // textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: TextTheme.of(context).titleLarge?.fontSize,
-              color: Theme.of(context).colorScheme.primary,
-            ),
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(color: Theme.of(context).colorScheme.primary),
           ),
         ],
       ),
@@ -87,8 +85,9 @@ class TitleSection extends StatelessWidget {
 }
 
 class IngredientsBox extends StatelessWidget{
-  const IngredientsBox({super.key, required this.ingredients});
+  IngredientsBox({super.key, required this.ingredients});
 
+  final _formKey = GlobalKey<FormState>();
   final String ingredients;
 
   @override
@@ -98,12 +97,85 @@ class IngredientsBox extends StatelessWidget{
       color: Colors.lightGreen,
 
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            ingredients
+            ingredients,
+            style: TextStyle(
+              fontSize: TextTheme.of(context).titleLarge?.fontSize,
+            )
+          ),
+          
+          UnorderedList(
+            [
+              'coconut milk',
+              'carrots',
+              'onions',
+              'garlic',
+              'green curry paste',
+              'asparagus',
+              'cilantro',
+              ]
+          ),
+
+          ElevatedButton(
+            onPressed: () async {
+              await showDialog<void>(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                        content: Stack(
+                          clipBehavior: Clip.none,
+                          children: <Widget>[
+                            Positioned(
+                              right: -40,
+                              top: -40,
+                              child: InkResponse(
+                                onTap: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: const CircleAvatar(
+                                  backgroundColor: Colors.red,
+                                  child: Icon(Icons.close),
+                                ),
+                              ),
+                            ),
+                            Form(
+                              key: _formKey,
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  Padding(
+                                    padding: const EdgeInsets.all(8),
+                                    child: TextFormField(),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8),
+                                    child: TextFormField(),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8),
+                                    child: ElevatedButton(
+                                      child: const Text('Submitß'),
+                                      onPressed: () {
+                                        if (_formKey.currentState!.validate()) {
+                                          _formKey.currentState!.save();
+                                        }
+                                      },
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ));
+            },
+            child: const Text('Open Popup'),
           ),
         ],
       ),
     );
   }
 }
+
+
