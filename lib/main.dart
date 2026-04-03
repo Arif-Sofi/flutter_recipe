@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 import 'package:go_router/go_router.dart';
 
 import '../views/home/home_page.dart';
@@ -6,7 +8,13 @@ import '../views/home/home_page.dart';
 import '../views/recipes/recipe1/recipe1.dart';
 import '../views/recipes/recipe2/recipe2.dart';
 
-void main() => runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  runApp(const MyApp());
+}
 
 final GoRouter _router = GoRouter(
   routes: <RouteBase> [
