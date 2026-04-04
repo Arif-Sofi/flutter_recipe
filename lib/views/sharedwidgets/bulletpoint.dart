@@ -5,7 +5,7 @@
 import 'package:flutter/material.dart';
 
 class UnorderedList extends StatelessWidget {
-  const UnorderedList(this.texts);
+  const UnorderedList(this.texts, {super.key});
   final List<String> texts;
 
   @override
@@ -23,7 +23,7 @@ class UnorderedList extends StatelessWidget {
 }
 
 class UnorderedListItem extends StatelessWidget {
-  const UnorderedListItem(this.text);
+  const UnorderedListItem(this.text,{super.key});
   final String text;
 
   @override
